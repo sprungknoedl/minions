@@ -26,6 +26,11 @@ func (br BindingResult) Include(other BindingResult) {
 	}
 }
 
+// MarshalJSON implements the json.Marshaler interface.
+func (br BindingResult) MarshalJSON() ([]byte, error) {
+	return json.Marshal(map[string]string(br))
+}
+
 // V is a helper type to quickly build variable maps for templates.
 type V map[string]interface{}
 
