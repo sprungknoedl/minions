@@ -37,7 +37,7 @@ func XML(w http.ResponseWriter, r *http.Request, code int, data interface{}) err
 
 // Templates is a collection of HTML templates in the html/template format of the
 // go stdlib. The templates are loaded and parsed on the first request, on every request
-// when reload is enabled on explicetly when Load() is called.
+// when reload is enabled on explicitly when Load() is called.
 type Templates struct {
 	dir     string
 	tpl     *template.Template

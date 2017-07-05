@@ -8,7 +8,7 @@ import (
 // form to a Go struct.
 type BindingResult map[string]string
 
-// Valid returns whether the binding was successfull or not.
+// Valid returns whether the binding was successful or not.
 func (br BindingResult) Valid() bool {
 	return len(br) == 0
 }
