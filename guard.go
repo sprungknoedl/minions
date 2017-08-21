@@ -72,7 +72,6 @@ func (g *Guard) Protect(fn http.HandlerFunc, roles ...string) http.HandlerFunc {
 
 // Principal is an entity that can be authenticated and verified.
 type Principal interface {
-	ID() string
 	Authenticated() bool
 	HasAnyRole(roles ...string) bool
 }
@@ -85,10 +84,6 @@ type Anonymous struct{}
 // Authenticated returns always false, because Anonymous users are not
 // authenticated.
 func (a Anonymous) Authenticated() bool { return false }
-
-// ID retunrs always the string `anonymous` as ID for unauthenticated
-// users.
-func (a Anonymous) ID() string { return "anonymous" }
 
 // HasAnyRole returns always false for any role, because Anonymous users
 // are not authenticated.
