@@ -70,6 +70,14 @@ func (g *Guard) Protect(fn http.HandlerFunc, roles ...string) http.HandlerFunc {
 	}
 }
 
+// ProtectMiddleware requires that the principal has at least one of the provided roles before
+// the request is forwarded to the protected handler.
+func (g *Guard) ProtectMiddleware(roles ...string) func(http.Handler) http.Handler {
+	return func(fn http.Handler) http.Handler {
+		return http.HandlerFunc(g.Protect(fn.ServeHTTP, roles...))
+	}
+}
+
 // Principal is an entity that can be authenticated and verified.
 type Principal interface {
 	Authenticated() bool
