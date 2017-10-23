@@ -96,8 +96,11 @@ func (tpl *Templates) Load() (*Templates, error) {
 				return err
 			}
 
+			name := path
+			name = strings.TrimPrefix(name, tpl.dir)
+			name = strings.TrimLeft(name, "./")
 			tpl.tpl, err = tpl.tpl.
-				New(strings.TrimPrefix(path, tpl.dir)).
+				New(name).
 				Parse(string(b))
 			return err
 		}
