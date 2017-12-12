@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"errors"
 	"html/template"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -116,6 +117,15 @@ func (tpl Templates) Load() (Templates, error) {
 
 // HTML outputs a rendered HTML template to the client.
 func (tpl Templates) HTML(w http.ResponseWriter, r *http.Request, code int, name string, data interface{}) error {
+	w.Header().Add("content-type", "text/html; charset=utf-8")
+	w.WriteHeader(code)
+
+	return tpl.Execute(w, name, data)
+}
+
+// Execute outputs a rendered template to the Writer. If you want to stream
+// HTML to an ResponseWriter, use HTML(..) as it sets some required headers.
+func (tpl Templates) Execute(w io.Writer, name string, data interface{}) error {
 	// reload templates in debug mode
 	if tpl.reload {
 		var err error
@@ -124,9 +134,6 @@ func (tpl Templates) HTML(w http.ResponseWriter, r *http.Request, code int, name
 			return err
 		}
 	}
-
-	w.Header().Add("content-type", "text/html; charset=utf-8")
-	w.WriteHeader(code)
 
 	// clone underlying templates, so we can safely update the functions
 	templates, err := tpl.templates.Clone()
