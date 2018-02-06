@@ -58,7 +58,7 @@ type Templates struct {
 // are reloaded on each request.
 func NewTemplates(dir string, reload bool) Templates {
 	return Templates{
-		dir: dir,
+		dir: filepath.FromSlash(dir),
 		funcmap: template.FuncMap{
 			"div": func(dividend, divisor int) float64 {
 				return float64(dividend) / float64(divisor)
